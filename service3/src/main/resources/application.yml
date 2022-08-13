@@ -1,0 +1,18 @@
+currency:
+  pair:
+    save:
+      len: 100
+    from: USD, EUR, EUR, USD, GBP
+    to: RUB, RUB, USD, JPY, USD
+    price: 60.2135, 61.78, 1.022, 135, 1.2085
+
+
+application:
+  starter:
+    url: http://app:8080
+    savePerRequest: 10
+metrics:
+  client:
+    url: http://localhost:8081
+server:
+  port: 8081

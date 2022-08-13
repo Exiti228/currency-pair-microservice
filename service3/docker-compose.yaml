@@ -1,0 +1,17 @@
+version: '2'
+
+services:
+  app2:
+    build: .
+    ports:
+      - "8081:8081"
+    container_name: app2
+    #depends_on:
+    #  - app
+    networks:
+      - host
+
+
+networks:
+  host:
+    driver: bridge

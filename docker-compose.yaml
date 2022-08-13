@@ -1,0 +1,49 @@
+version: '2'
+
+services:
+  app:
+    build: ./service12
+    ports:
+      - "8080:8080"
+    container_name: app
+    depends_on:
+      - db
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db:5432/POSTGRES
+      - SPRING_DATASOURCE_USERNAME=POSTGRES
+      - SPRING_DATASOURCE_PASSWORD=POSTGRES
+
+
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    container_name: db
+    environment:
+      - POSTGRES_PASSWORD=POSTGRES
+      - POSTGRES_USER=POSTGRES
+      - POSTGRES_DB=POSTGRES
+
+
+  pgadmin:
+    container_name: pgadmin4_container
+    image: dpage/pgadmin4:4.29
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: root
+    ports:
+      - "5050:80"
+    depends_on:
+      - db
+
+
+  app2:
+    build: ./service3
+    ports:
+      - "8081:8081"
+    container_name: app2
+    depends_on:
+      - app
+
+
+

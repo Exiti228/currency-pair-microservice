@@ -1,0 +1,31 @@
+databaseChangeLog:
+  - changeSet:
+      id: 05-07-2022-create-table-currency-pair
+      author: Mikhail
+      changes:
+        - createTable:
+            tableName: snapshot
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: price
+                  type: double
+                  constraints:
+                    nullable: false
+              - column:
+                  name: date
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name : currency_pair_id
+                  type: int
+                  constraints:
+                    foreignKeyName: currency_pair_id
+                    references: currency_pair(id)

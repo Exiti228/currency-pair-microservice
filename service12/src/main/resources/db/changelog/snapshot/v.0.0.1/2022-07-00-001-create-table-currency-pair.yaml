@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 05-07-2022-create-table-currency-pair
+      author: Mikhail
+      changes:
+        - createTable:
+            tableName: currency_pair
+            columns:
+              - column:
+                  name: id
+                  type: int
+                  autoIncrement: true
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: from_db
+                  type: varchar(3)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: to_db
+                  type: varchar(3)
+                  constraints:
+                    nullable: false

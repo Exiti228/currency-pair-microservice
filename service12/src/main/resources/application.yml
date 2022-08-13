@@ -1,0 +1,28 @@
+currency:
+  pair:
+    save:
+      len: 100
+    from: USD, EUR, EUR, USD, GBP
+    to: RUB, RUB, USD, JPY, USD
+    price: 60.2135, 61.78, 1.022, 135, 1.2085
+spring:
+
+  datasource:
+    url: jdbc:postgresql://db:5432/testdb
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: update
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+
+
+application:
+  starter:
+    url: http://localhost:8080
+    savePerRequest: 10
