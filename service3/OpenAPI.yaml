@@ -1,0 +1,268 @@
+openapi: 3.0.3
+info:
+  title: Currency pair microservice documentation 
+
+
+  version: 1.0.0
+
+tags:
+  - name: ohlc
+    description: Open, high, low, close metrics. Available at localhost://8081
+  - name: snapshot
+    description: currency pair value and time. Available at localhost://8080
+
+paths:
+  
+  /currency:
+    get:
+      tags:
+        - snapshot
+      summary: Get currency pair snapshots
+      parameters:
+        - name: value
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Snapshot'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Snapshot'
+  /currency/range:
+    get:
+      tags:
+        - snapshot
+      summary: Get currency pair snapshots from interval
+      parameters:
+        - name: value
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Snapshot'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Snapshot'
+  /currency/generate:
+    post:
+      tags:
+        - snapshot
+      summary: Generate  currency pair by value and save to database
+      parameters:
+        - name: value
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: count
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: ind
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: currency pair not found
+    get:
+      tags:
+        - snapshot
+      summary: Generate and return currency pair by value, without save to database
+      parameters:
+        - name: value
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: count
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+        - name: ind
+          in: query
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: currency pair not found
+  /currency/add:
+    post:
+      tags:
+        - snapshot
+      summary: Generate and save all available currency pairs to database
+      responses:
+        '200':
+          description: successful operation    
+  /metrics:
+    get:
+      tags:
+        - ohlc
+      summary: Get all OHLC metrics from interval
+      parameters:
+        - name: from
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+            example: 2017-07-21T17:32:28Z
+        - name: to
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+            example: 2017-07-21T17:32:28Z
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OHLC'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OHLC'
+  /ohlc:
+    get:
+      tags:
+        - ohlc
+      summary: Get all OHLC metrics by given currency pair value
+      parameters:
+        - name: value
+          in: query
+          required: true
+          schema:
+            type: string
+            example: EURUSD
+        
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OHLC'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OHLC'
+  
+  /ohlc/all:
+    get:
+      tags:
+        - ohlc
+      summary: Get all OHLC metrics
+      
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OHLC'          
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/OHLC'
+  
+components:
+  schemas:
+    Snapshot:
+      type: object
+      properties:
+        price:
+          type: number
+          format: double
+          example: 1.0
+        date:
+          type: string
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+    OHLC:
+      type: object
+      properties:
+        open:
+          type: number
+          format: double
+          example: 1
+        high:
+          type: number
+          format: double
+          example: 198772
+        low:
+          type: number
+          format: double
+          example: 7
+        close:
+          type: number
+          format: double
+          example: 10
+        start:
+          type: string
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        end:
+          type: string
+          format: date-time
+          example: 2017-07-21T17:32:28Z
+        pairName:
+          type: string
+          example: EURUSD
+          
+    

@@ -30,7 +30,7 @@ public class MetricsController {
         return metricsService.getOHLC(value);
     }
     @GetMapping("/ohlc/all")
-    public List<OHLC> allOHLC(@RequestParam(name = "value") String value) {
+    public List<OHLC> allOHLC() {
         return OHLCRepository.ohlcs;
     }
 }
