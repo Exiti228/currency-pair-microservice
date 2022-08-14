@@ -23,6 +23,7 @@ import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 
+
 @Service
 public class CurrencyPairServiceSaver {
     private final CurrencyPairServiceGenerator currencyPairServiceGenerator;
@@ -61,7 +62,22 @@ public class CurrencyPairServiceSaver {
 
         executor.shutdown();
     }
+    public void saveRandomPairsTest(CopyOnWriteArrayList<String> from1, CopyOnWriteArrayList<String> to1) {
 
+        ThreadPoolExecutor executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
+        for ( int it = 0; it < to1.size(); ++it ) {
+            final int ind = it;
+
+            executor.submit(() -> {
+
+                Double[] prices = currencyPairServiceGenerator.generateAllValueByPair(from1.get( ind ), to1.get( ind ), ind, currencyPairSaveLen);
+                savePairWithDelete(from1.get( ind ), to1.get( ind ), prices);
+
+            });
+        }
+
+        executor.shutdown();
+    }
     public void saveRandomPairs(int len, String value, int ind) {
         Double[] prices = currencyPairServiceGenerator.generateAllValueByPair(from.get( ind ), to.get( ind ), ind, len);
         savePairWithoutDelete(from.get( ind ), to.get( ind ), prices);

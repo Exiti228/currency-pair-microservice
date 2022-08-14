@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -40,6 +41,23 @@ public class CurrencyPairServiceGenerator {
                 save = currencyPair.get().getSnapshots().get( currencyPair.get().getSnapshots().size() - 1 ).getPrice();
 
             prices[ it ] = generateOneValueByPair( save );
+
+
+        }
+        return prices;
+    }
+    @Transactional
+    public Double[] generateAllValueByPairTest(String from, String to, int ind, int currencyPairSaveLen, List<Double> pr) {
+        Optional<CurrencyPair> currencyPair = currencyPairRepository.findByFromAndTo(from, to);
+        Double[] prices = new Double[ currencyPairSaveLen ];
+        for (int it = 0; it < currencyPairSaveLen; ++it) {
+
+            Double save = ( it == 0 ? pr.get(ind) : prices[ it - 1 ] );
+            if (currencyPair.isPresent())
+                save = currencyPair.get().getSnapshots().get( currencyPair.get().getSnapshots().size() - 1 ).getPrice();
+
+            prices[ it ] = generateOneValueByPair( save );
+
 
 
         }
